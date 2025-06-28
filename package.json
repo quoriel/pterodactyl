@@ -1,0 +1,14 @@
+{
+    "name": "@quoriel/pterodactyl",
+    "description": "ForgeScript extension for interacting with the Pterodactyl API (Client Category)",
+    "version": "1.0.0",
+    "main": "src/main.js",
+    "author": "Mlad (https://github.com/eolthar)",
+    "license": "GPL-3.0",
+    "scripts": {
+        "docgen": "node src/docgen.js"
+    },
+    "dependencies": {
+        "@tryforge/forgescript": "^2.3.0"
+    }
+}
