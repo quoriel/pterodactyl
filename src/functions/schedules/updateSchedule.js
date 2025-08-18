@@ -75,7 +75,7 @@ exports.default = new NativeFunction({
     async execute(ctx, [variable, server, schedule, name, minute, hour, day_of_month, day_of_week, is_active]) {
         const endpoint = `servers/${server}/schedules/${schedule}`;
         const body = { name, minute, hour, day_of_month, day_of_week };
-        if (is_active !== undefined) body.is_active = is_active;
+        if (is_active !== null) body.is_active = is_active;
         const result = await request(variable, "POST", endpoint, body);
         return this.successJSON(result);
     }
