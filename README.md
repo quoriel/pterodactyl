@@ -13,12 +13,17 @@ const { QuorielPterodactyl } = require("@quoriel/pterodactyl");
 
 const client = new ForgeClient({
     extensions: [
+        // Configuration for your Pterodactyl panels
         new QuorielPterodactyl({
-            "example": {
-                "url": "EXAMPLE-URL",
-                "key": "EXAMPLE-KEY",
+            "main_panel": {
+                "url": "PTERO_URL",
+                "key": "PTERO_KEY"
+            },
+            "second_panel": {
+                "url": "SECOND_PTERO_URL",
+                "key": "SECOND_PTERO_KEY",
                 "headers": {
-                    "User-Agent": "..."
+                    "User-Agent": "Quoriel/1.0"
                 }
             }
         })
@@ -28,32 +33,22 @@ const client = new ForgeClient({
 client.login("...");
 ```
 
-### Structure
-The `url` and `key` values **are not specified directly**, but are read from `process.env`.
-- **url** - the name of the environment variable (`process.env`) that stores the URL of your panel (for example: `panel.domain.com`).
-- **key** - the name of the environment variable containing the **Pterodactyl client API key**.
-- **headers** *(optionally)* - object with additional headers to be sent in each request.
+## Configure Environment Variables
+The `url` and `key` values are not specified directly in the code. Instead, you provide the names of environment variables that hold these values. This is a security best practice.
+Create a `.env` file in your project's root directory and add your credentials:
 
-### Usage
-Data for example work:
-```json
-{
-    "example": {
-        "url": "EXAMPLE-URL",
-        "key": "EXAMPLE-KEY"
-    }
-}
+```env
+# Credentials for the "main_panel" configuration
+PTERO_URL=panel.example.com
+PTERO_KEY=ptlc_YourSuperSecretApiKeyHere
+
+# Credentials for the "second_panel" configuration
+SECOND_PTERO_URL=another-panel.net
+SECOND_PTERO_KEY=ptlc_AnotherApiKeyFromSecondPanel
 ```
 
-And in `.env` added:
-```
-EXAMPLE-URL=panel.example.com
-EXAMPLE-KEY=ptlc_j83j98hdsa.......
-```
-
-Then all requests using the `example` variable will be sent as:
-```
+> **Note**
+> The key in the configuration object (e.g., `main_panel`) is the identifier you will use in functions to specify which panel to send the request to.
 https://panel.example.com/api/client
 // Header
-Authorization: Bearer ptlc_j83j98hdsa.......
-```
+Authorization: Bearer ptlc_YourSuperSec.......
