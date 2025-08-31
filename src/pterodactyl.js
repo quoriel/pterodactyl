@@ -1,8 +1,3 @@
-const { existsSync } = require("fs");
-const { mkdir, writeFile, readFile } = require("fs").promises;
-const { resolve, join } = require("path");
-
-const path = resolve(process.cwd(), "quoriel", "pterodactyl");
 let config = {};
 
 async function request(variable, method, endpoint, body) {
@@ -82,27 +77,7 @@ async function request(variable, method, endpoint, body) {
     }
 }
 
-async function update() {
-    try {
-        await mkdir(path, { recursive: true });
-        const full = join(path, "config.json");
-        if (!existsSync(full)) {
-            await writeFile(full, "{}", "utf8");
-        }
-        const data = await readFile(full, "utf8");
-        for (const key of Object.keys(config)) {
-            delete config[key];
-        }
-        const parsed = JSON.parse(data);
-        Object.assign(config, parsed);
-        return true;
-    } catch {
-        return false;
-    }
-}
-
 module.exports = {
-    update,
     request,
     config
 };

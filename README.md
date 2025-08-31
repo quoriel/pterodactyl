@@ -13,29 +13,20 @@ const { QuorielPterodactyl } = require("@quoriel/pterodactyl");
 
 const client = new ForgeClient({
     extensions: [
-        new QuorielPterodactyl()
+        new QuorielPterodactyl({
+            "example": {
+                "url": "EXAMPLE-URL",
+                "key": "EXAMPLE-KEY",
+                "headers": {
+                    "User-Agent": "..."
+                }
+            }
+        })
     ]
 });
 
 client.login("...");
 ```
-
-## Config
-The **config.json** file is located in the **quoriel/pterodactyl** folder of your bot.
-
-Each field in this file represents the configuration of a connection to one of the Pterodactyl panels. The key is an arbitrary connection name, which can then be used in function arguments.
-
-```json
-{
-    "example": {
-        "url": "EXAMPLE-URL",
-        "key": "EXAMPLE-KEY",
-        "headers": {
-            "User-Agent": "..."
-        }
-    }
-}
-````
 
 ### Structure
 The `url` and `key` values **are not specified directly**, but are read from `process.env`.
@@ -44,7 +35,7 @@ The `url` and `key` values **are not specified directly**, but are read from `pr
 - **headers** *(optionally)* - object with additional headers to be sent in each request.
 
 ### Usage
-If `config.json` specifies:
+Data for example work:
 ```json
 {
     "example": {

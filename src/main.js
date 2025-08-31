@@ -1,16 +1,27 @@
-const { ForgeExtension } = require("@tryforge/forgescript");
-const { update } = require("./pterodactyl");
-const pkg = require("../package.json");
+const { ForgeExtension, Logger } = require("@tryforge/forgescript");
+const { description, version } = require("../package.json");
+const { config } = require("./pterodactyl");
 
 class QuorielPterodactyl extends ForgeExtension {
     name = "QuorielPterodactyl";
-    description = pkg.description;
-    version = pkg.version;
+    description = description;
+    version = version;
+
+    constructor(data) {
+        super();
+        try {
+            for (const key of Object.keys(config)) {
+                delete config[key];
+            }
+            Object.assign(config, data);
+        } catch (error) {
+            Logger.error(error);
+        }
+    }
 
     init() {
-        update();
         this.load(__dirname + "/functions");
     }
 }
 
-exports.QuorielPterodactyl = QuorielPterodactyl;
+module.exports = { QuorielPterodactyl };
