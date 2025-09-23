@@ -10,5 +10,11 @@
     },
     "dependencies": {
         "@tryforge/forgescript": "^2.4.1"
-    }
+    },
+    "files": [
+        "src/",
+        "LICENSE",
+        "README.md",
+        "package.json"
+    ]
 }
