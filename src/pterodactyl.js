@@ -1,20 +1,17 @@
-const { Pool } = require("undici");
-
-let config = {};
+const config = {};
 const pools = {};
 
 async function request(variable, method, endpoint, body, headers) {
-    const con = config[variable] || {};
     try {
-        const response = await pools[con.url].request({
+        const response = await pools[config[variable].url].request({
             path: "/api/client" + endpoint,
             method,
             body,
             headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${con.key}`,
-                ...con.headers,
+                Authorization: "Bearer " + config[variable].key,
+                ...config[variable].headers,
                 ...headers
             }
         });
