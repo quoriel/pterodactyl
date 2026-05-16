@@ -3,7 +3,7 @@ const { request } = require("../../pterodactyl");
 
 exports.default = new NativeFunction({
     name: "$deleteFile",
-    version: "1.0.0",
+    version: "1.2.0",
     description: "Deletes specified files or folders",
     output: ArgType.Json,
     brackets: true,
@@ -39,9 +39,6 @@ exports.default = new NativeFunction({
         }
     ],
     async execute(ctx, [variable, server, root, files]) {
-        const endpoint = `servers/${server}/files/delete`;
-        const body = { root, files };
-        const result = await request(variable, "POST", endpoint, body);
-        return this.successJSON(result);
+        return this.successJSON(await request(variable, "POST", "/servers/" + server + "/files/delete", JSON.stringify({ root, files })));
     }
 });

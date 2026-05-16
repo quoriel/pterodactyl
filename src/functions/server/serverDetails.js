@@ -3,7 +3,7 @@ const { request } = require("../../pterodactyl");
 
 exports.default = new NativeFunction({
     name: "$serverDetails",
-    version: "1.0.0",
+    version: "1.2.0",
     description: "Gets information about the selected server",
     output: ArgType.Json,
     brackets: true,
@@ -25,17 +25,12 @@ exports.default = new NativeFunction({
         },
         {
             name: "include",
-            description: "Parameters (egg,subusers)",
+            description: "Parameters (allocations,variables)",
             type: ArgType.String,
             rest: false
         }
     ],
     async execute(ctx, [variable, server, include]) {
-        let endpoint = `servers/${server}`;
-        if (include) {
-            endpoint += `?include=${encodeURIComponent(include)}`;
-        }
-        const result = await request(variable, "GET", endpoint);
-        return this.successJSON(result);
+        return this.successJSON(await request(variable, "GET", "/servers/" + server + (include ? "?include=" + encodeURIComponent(include) : "")));
     }
 });

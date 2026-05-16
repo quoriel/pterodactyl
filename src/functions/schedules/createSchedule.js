@@ -3,7 +3,7 @@ const { request } = require("../../pterodactyl");
 
 exports.default = new NativeFunction({
     name: "$createSchedule",
-    version: "1.0.0",
+    version: "1.2.0",
     description: "Creates a new schedule on the server",
     output: ArgType.Json,
     brackets: true,
@@ -66,10 +66,6 @@ exports.default = new NativeFunction({
         }
     ],
     async execute(ctx, [variable, server, name, minute, hour, day_of_month, day_of_week, is_active]) {
-        const endpoint = `servers/${server}/schedules`;
-        const body = { name, minute, hour, day_of_month, day_of_week };
-        if (is_active !== null) body.is_active = is_active;
-        const result = await request(variable, "POST", endpoint, body);
-        return this.successJSON(result);
+        return this.successJSON(await request(variable, "POST", "/servers/" + server + "/schedules", JSON.stringify({ name, minute, hour, day_of_month, day_of_week, is_active })));
     }
 });

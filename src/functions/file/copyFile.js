@@ -3,7 +3,7 @@ const { request } = require("../../pterodactyl");
 
 exports.default = new NativeFunction({
     name: "$copyFile",
-    version: "1.0.0",
+    version: "1.2.0",
     description: "Copies the specified file",
     output: ArgType.Json,
     brackets: true,
@@ -32,9 +32,6 @@ exports.default = new NativeFunction({
         }
     ],
     async execute(ctx, [variable, server, location]) {
-        const endpoint = `servers/${server}/files/copy`;
-        const body = { location };
-        const result = await request(variable, "POST", endpoint, body);
-        return this.successJSON(result);
+        return this.successJSON(await request(variable, "POST", "/servers/" + server + "/files/copy", JSON.stringify({ location })));
     }
 });

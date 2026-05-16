@@ -3,7 +3,7 @@ const { request } = require("../../pterodactyl");
 
 exports.default = new NativeFunction({
     name: "$createDatabase",
-    version: "1.0.0",
+    version: "1.2.0",
     description: "Creates a new database on the server",
     output: ArgType.Json,
     brackets: true,
@@ -39,9 +39,6 @@ exports.default = new NativeFunction({
         }
     ],
     async execute(ctx, [variable, server, database, remote]) {
-        const endpoint = `servers/${server}/databases`;
-        const body = { database, remote };
-        const result = await request(variable, "POST", endpoint, body);
-        return this.successJSON(result);
+        return this.successJSON(await request(variable, "POST", "/servers/" + server + "/databases", JSON.stringify({ database, remote })));
     }
 });

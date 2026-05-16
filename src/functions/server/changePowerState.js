@@ -10,7 +10,7 @@ const SignalType = {
 
 exports.default = new NativeFunction({
     name: "$changePowerState",
-    version: "1.0.0",
+    version: "1.2.0",
     description: "Sends a power signal to the server",
     output: ArgType.Json,
     brackets: true,
@@ -40,9 +40,6 @@ exports.default = new NativeFunction({
         }
     ],
     async execute(ctx, [variable, server, signal]) {
-        const endpoint = `servers/${server}/power`;
-        const body = { signal };
-        const result = await request(variable, "POST", endpoint, body);
-        return this.successJSON(result);
+        return this.successJSON(await request(variable, "POST", "/servers/" + server + "/power", JSON.stringify({ signal })));
     }
 });

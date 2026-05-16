@@ -3,7 +3,7 @@ const { request } = require("../../pterodactyl");
 
 exports.default = new NativeFunction({
     name: "$setPrimaryAllocation",
-    version: "1.0.0",
+    version: "1.2.0",
     description: "Sets the main allocation",
     output: ArgType.Json,
     brackets: true,
@@ -32,8 +32,6 @@ exports.default = new NativeFunction({
         }
     ],
     async execute(ctx, [variable, server, allocation]) {
-        const endpoint = `servers/${server}/network/allocations/${allocation}/primary`;
-        const result = await request(variable, "POST", endpoint);
-        return this.successJSON(result);
+        return this.successJSON(await request(variable, "POST", "/servers/" + server + "/network/allocations/" + allocation + "/primary"));
     }
 });

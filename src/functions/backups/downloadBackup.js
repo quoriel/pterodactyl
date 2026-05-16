@@ -3,7 +3,7 @@ const { request } = require("../../pterodactyl");
 
 exports.default = new NativeFunction({
     name: "$downloadBackup",
-    version: "1.0.0",
+    version: "1.2.0",
     description: "Generates a link to download the selected server backup",
     output: ArgType.Json,
     brackets: true,
@@ -32,8 +32,6 @@ exports.default = new NativeFunction({
         }
     ],
     async execute(ctx, [variable, server, backup]) {
-        const endpoint = `servers/${server}/backups/${backup}/download`;
-        const result = await request(variable, "GET", endpoint);
-        return this.successJSON(result);
+        return this.successJSON(await request(variable, "GET", "/servers/" + server + "/backups/" + backup + "/download"));
     }
 });

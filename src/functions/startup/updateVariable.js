@@ -3,7 +3,7 @@ const { request } = require("../../pterodactyl");
 
 exports.default = new NativeFunction({
     name: "$updateVariable",
-    version: "1.0.0",
+    version: "1.2.0",
     description: "Updates the selected server variable",
     output: ArgType.Json,
     brackets: true,
@@ -39,9 +39,6 @@ exports.default = new NativeFunction({
         }
     ],
     async execute(ctx, [variable, server, key, value]) {
-        const endpoint = `servers/${server}/startup/variable`;
-        const body = { key, value };
-        const result = await request(variable, "PUT", endpoint, body);
-        return this.successJSON(result);
+        return this.successJSON(await request(variable, "PUT", "/servers/" + server + "/startup/variable", JSON.stringify({ key, value })));
     }
 });

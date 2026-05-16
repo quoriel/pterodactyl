@@ -3,7 +3,7 @@ const { request } = require("../../pterodactyl");
 
 exports.default = new NativeFunction({
     name: "$updatePassword",
-    version: "1.0.0",
+    version: "1.2.0",
     description: "Updates the account password",
     output: ArgType.Json,
     brackets: true,
@@ -39,9 +39,6 @@ exports.default = new NativeFunction({
         }
     ],
     async execute(ctx, [variable, current_password, password, password_confirmation]) {
-        const endpoint = "account/password";
-        const body = { current_password, password, password_confirmation };
-        const result = await request(variable, "PUT", endpoint, body);
-        return this.successJSON(result);
+        return this.successJSON(await request(variable, "PUT", "/account/password", JSON.stringify({ current_password, password, password_confirmation })));
     }
 });

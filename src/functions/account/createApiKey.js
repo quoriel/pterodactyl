@@ -3,7 +3,7 @@ const { request } = require("../../pterodactyl");
 
 exports.default = new NativeFunction({
     name: "$createApiKey",
-    version: "1.0.0",
+    version: "1.2.0",
     description: "Generates a new API key",
     output: ArgType.Json,
     brackets: true,
@@ -31,10 +31,6 @@ exports.default = new NativeFunction({
         }
     ],
     async execute(ctx, [variable, description, allowed_ips]) {
-        const endpoint = "account/api-keys";
-        const body = { description };
-        if (allowed_ips) body.allowed_ips = allowed_ips;
-        const result = await request(variable, "POST", endpoint, body);
-        return this.successJSON(result);
+        return this.successJSON(await request(variable, "POST", "/account/api-keys", JSON.stringify({ description, allowed_ips })));
     }
 });

@@ -9,7 +9,7 @@ const ActionType = {
 
 exports.default = new NativeFunction({
     name: "$createTask",
-    version: "1.0.0",
+    version: "1.2.0",
     description: "Creates a new task in the selected schedule",
     output: ArgType.Json,
     brackets: true,
@@ -60,9 +60,6 @@ exports.default = new NativeFunction({
         }
     ],
     async execute(ctx, [variable, server, schedule, action, payload, time_offset]) {
-        const endpoint = `servers/${server}/schedules/${schedule}/tasks`;
-        const body = { action, payload, time_offset };
-        const result = await request(variable, "POST", endpoint, body);
-        return this.successJSON(result);
+        return this.successJSON(await request(variable, "POST", "/servers/" + server + "/schedules/" + schedule + "/tasks", JSON.stringify({ action, payload, time_offset })));
     }
 });

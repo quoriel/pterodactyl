@@ -3,7 +3,7 @@ const { request } = require("../../pterodactyl");
 
 exports.default = new NativeFunction({
     name: "$disableTwoFactor",
-    version: "1.0.0",
+    version: "1.2.0",
     description: "Disables TOTP two-factor authentication on the account",
     output: ArgType.Json,
     brackets: true,
@@ -25,9 +25,6 @@ exports.default = new NativeFunction({
         }
     ],
     async execute(ctx, [variable, password]) {
-        const endpoint = "account/two-factor";
-        const body = { password };
-        const result = await request(variable, "DELETE", endpoint, body);
-        return this.successJSON(result);
+        return this.successJSON(await request(variable, "POST", "/account/two-factor/disable", JSON.stringify({ password })));
     }
 });

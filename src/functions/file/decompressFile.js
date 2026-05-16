@@ -3,7 +3,7 @@ const { request } = require("../../pterodactyl");
 
 exports.default = new NativeFunction({
     name: "$decompressFile",
-    version: "1.0.0",
+    version: "1.2.0",
     description: "Extracts the selected file",
     output: ArgType.Json,
     brackets: true,
@@ -39,9 +39,6 @@ exports.default = new NativeFunction({
         }
     ],
     async execute(ctx, [variable, server, root, file]) {
-        const endpoint = `servers/${server}/files/decompress`;
-        const body = { root, file };
-        const result = await request(variable, "POST", endpoint, body);
-        return this.successJSON(result);
+        return this.successJSON(await request(variable, "POST", "/servers/" + server + "/files/decompress", JSON.stringify({ root, file })));
     }
 });

@@ -3,7 +3,7 @@ const { request } = require("../../pterodactyl");
 
 exports.default = new NativeFunction({
     name: "$createUser",
-    version: "1.0.0",
+    version: "1.2.0",
     description: "Adds a user to the server",
     output: ArgType.Json,
     brackets: true,
@@ -39,9 +39,6 @@ exports.default = new NativeFunction({
         }
     ],
     async execute(ctx, [variable, server, email, permissions]) {
-        const endpoint = `servers/${server}/users`;
-        const body = { email, permissions };
-        const result = await request(variable, "POST", endpoint, body);
-        return this.successJSON(result);
+        return this.successJSON(await request(variable, "POST", "/servers/" + server + "/users", JSON.stringify({ email, permissions })));
     }
 });

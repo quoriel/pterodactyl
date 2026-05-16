@@ -3,7 +3,7 @@ const { request } = require("../../pterodactyl");
 
 exports.default = new NativeFunction({
     name: "$renameServer",
-    version: "1.0.0",
+    version: "1.2.0",
     description: "Renames the server",
     output: ArgType.Json,
     brackets: true,
@@ -32,9 +32,6 @@ exports.default = new NativeFunction({
         }
     ],
     async execute(ctx, [variable, server, name]) {
-        const endpoint = `servers/${server}/settings/rename`;
-        const body = { name };
-        const result = await request(variable, "POST", endpoint, body);
-        return this.successJSON(result);
+        return this.successJSON(await request(variable, "POST", "/servers/" + server + "/settings/rename", JSON.stringify({ name })));
     }
 });

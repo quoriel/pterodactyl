@@ -3,7 +3,7 @@ const { request } = require("../../pterodactyl");
 
 exports.default = new NativeFunction({
     name: "$deleteTask",
-    version: "1.0.0",
+    version: "1.2.0",
     description: "Deletes the selected task in the schedule",
     output: ArgType.Json,
     brackets: true,
@@ -39,8 +39,6 @@ exports.default = new NativeFunction({
         }
     ],
     async execute(ctx, [variable, server, schedule, task]) {
-        const endpoint = `servers/${server}/schedules/${schedule}/tasks/${task}`;
-        const result = await request(variable, "DELETE", endpoint);
-        return this.successJSON(result);
+        return this.successJSON(await request(variable, "DELETE", "/servers/" + server + "/schedules/" + schedule + "/tasks/" + task));
     }
 });

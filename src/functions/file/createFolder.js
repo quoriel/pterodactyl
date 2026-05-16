@@ -3,7 +3,7 @@ const { request } = require("../../pterodactyl");
 
 exports.default = new NativeFunction({
     name: "$createFolder",
-    version: "1.0.0",
+    version: "1.2.0",
     description: "Creates the specified folder in the selected directory",
     output: ArgType.Json,
     brackets: true,
@@ -39,9 +39,6 @@ exports.default = new NativeFunction({
         }
     ],
     async execute(ctx, [variable, server, root, name]) {
-        const endpoint = `servers/${server}/files/create-folder`;
-        const body = { root, name };
-        const result = await request(variable, "POST", endpoint, body);
-        return this.successJSON(result);
+        return this.successJSON(await request(variable, "POST", "/servers/" + server + "/files/create-folder", JSON.stringify({ root, name })));
     }
 });

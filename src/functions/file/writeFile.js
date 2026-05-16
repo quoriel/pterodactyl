@@ -3,7 +3,7 @@ const { request } = require("../../pterodactyl");
 
 exports.default = new NativeFunction({
     name: "$writeFile",
-    version: "1.0.0",
+    version: "1.2.0",
     description: "Writes data to the specified file",
     output: ArgType.Json,
     brackets: true,
@@ -39,8 +39,6 @@ exports.default = new NativeFunction({
         }
     ],
     async execute(ctx, [variable, server, file, content]) {
-        const endpoint = `servers/${server}/files/write?file=${encodeURIComponent(file)}`;
-        const result = await request(variable, "POST", endpoint, content);
-        return this.successJSON(result);
+        return this.successJSON(await request(variable, "POST", "/servers/" + server + "/files/write?file=" + encodeURIComponent(file), content, { "Content-Type": "text/plain" }));
     }
 });

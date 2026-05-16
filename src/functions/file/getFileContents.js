@@ -3,7 +3,7 @@ const { request } = require("../../pterodactyl");
 
 exports.default = new NativeFunction({
     name: "$getFileContents",
-    version: "1.0.0",
+    version: "1.2.0",
     description: "Returns the contents of the specified file",
     output: ArgType.Json,
     brackets: true,
@@ -32,8 +32,6 @@ exports.default = new NativeFunction({
         }
     ],
     async execute(ctx, [variable, server, file]) {
-        const endpoint = `servers/${server}/files/contents?file=${encodeURIComponent(file)}`;
-        const result = await request(variable, "GET", endpoint);
-        return this.successJSON(result);
+        return this.successJSON(await request(variable, "GET", "/servers/" + server + "/files/contents?file=" + encodeURIComponent(file)));
     }
 });

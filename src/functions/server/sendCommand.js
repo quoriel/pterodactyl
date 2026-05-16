@@ -3,7 +3,7 @@ const { request } = require("../../pterodactyl");
 
 exports.default = new NativeFunction({
     name: "$sendCommand",
-    version: "1.0.0",
+    version: "1.2.0",
     description: "Sends a command to the server (The server must be online to execute the command)",
     output: ArgType.Json,
     brackets: true,
@@ -32,9 +32,6 @@ exports.default = new NativeFunction({
         }
     ],
     async execute(ctx, [variable, server, command]) {
-        const endpoint = `servers/${server}/command`;
-        const body = { command };
-        const result = await request(variable, "POST", endpoint, body);
-        return this.successJSON(result);
+        return this.successJSON(await request(variable, "POST", "/servers/" + server + "/command", JSON.stringify({ command })));
     }
 });

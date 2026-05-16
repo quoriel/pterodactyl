@@ -3,7 +3,7 @@ const { request } = require("../../pterodactyl");
 
 exports.default = new NativeFunction({
     name: "$resourceUsage",
-    version: "1.0.0",
+    version: "1.2.0",
     description: "Gets information about resource utilization of the selected server",
     output: ArgType.Json,
     brackets: true,
@@ -25,8 +25,6 @@ exports.default = new NativeFunction({
         }
     ],
     async execute(ctx, [variable, server]) {
-        const endpoint = `servers/${server}/resources`;
-        const result = await request(variable, "GET", endpoint);
-        return this.successJSON(result);
+        return this.successJSON(await request(variable, "GET", "/servers/" + server + "/resources"));
     }
 });

@@ -3,7 +3,7 @@ const { request } = require("../../pterodactyl");
 
 exports.default = new NativeFunction({
     name: "$createBackup",
-    version: "1.0.0",
+    version: "1.2.0",
     description: "Creates a new server backup",
     output: ArgType.Json,
     brackets: true,
@@ -25,8 +25,6 @@ exports.default = new NativeFunction({
         }
     ],
     async execute(ctx, [variable, server]) {
-        const endpoint = `servers/${server}/backups`;
-        const result = await request(variable, "POST", endpoint);
-        return this.successJSON(result);
+        return this.successJSON(await request(variable, "POST", "/servers/" + server + "/backups"));
     }
 });

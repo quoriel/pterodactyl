@@ -3,7 +3,7 @@ const { request } = require("../../pterodactyl");
 
 exports.default = new NativeFunction({
     name: "$listFiles",
-    version: "1.0.0",
+    version: "1.2.0",
     description: "Returns a list of all server files",
     output: ArgType.Json,
     brackets: true,
@@ -31,11 +31,6 @@ exports.default = new NativeFunction({
         }
     ],
     async execute(ctx, [variable, server, directory]) {
-        let endpoint = `servers/${server}/files/list`;
-        if (directory) {
-            endpoint += `?directory=${encodeURIComponent(directory)}`;
-        }
-        const result = await request(variable, "GET", endpoint);
-        return this.successJSON(result);
+        return this.successJSON(await request(variable, "GET", "/servers/" + server + "/files/list" + (directory ? "?directory=" + encodeURIComponent(directory) : "")));
     }
 });

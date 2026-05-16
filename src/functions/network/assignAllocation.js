@@ -3,7 +3,7 @@ const { request } = require("../../pterodactyl");
 
 exports.default = new NativeFunction({
     name: "$assignAllocation",
-    version: "1.0.0",
+    version: "1.2.0",
     description: "Automatically assigns a new allocation if auto-assignment is enabled",
     output: ArgType.Json,
     brackets: true,
@@ -25,8 +25,6 @@ exports.default = new NativeFunction({
         }
     ],
     async execute(ctx, [variable, server]) {
-        const endpoint = `servers/${server}/network/allocations`;
-        const result = await request(variable, "POST", endpoint);
-        return this.successJSON(result);
+        return this.successJSON(await request(variable, "POST", "/servers/" + server + "/network/allocations"));
     }
 });

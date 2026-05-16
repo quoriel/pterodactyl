@@ -3,7 +3,7 @@ const { request } = require("../../pterodactyl");
 
 exports.default = new NativeFunction({
     name: "$showPermissions",
-    version: "1.0.0",
+    version: "1.2.0",
     description: "Returns all available permissions",
     output: ArgType.Json,
     brackets: true,
@@ -18,8 +18,6 @@ exports.default = new NativeFunction({
         }
     ],
     async execute(ctx, [variable]) {
-        const endpoint = "permissions";
-        const result = await request(variable, "GET", endpoint);
-        return this.successJSON(result);
+        return this.successJSON(await request(variable, "GET", "/permissions"));
     }
 });

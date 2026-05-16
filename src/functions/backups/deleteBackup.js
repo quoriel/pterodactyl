@@ -3,7 +3,7 @@ const { request } = require("../../pterodactyl");
 
 exports.default = new NativeFunction({
     name: "$deleteBackup",
-    version: "1.0.0",
+    version: "1.2.0",
     description: "Deletes the selected server backup",
     output: ArgType.Json,
     brackets: true,
@@ -32,8 +32,6 @@ exports.default = new NativeFunction({
         }
     ],
     async execute(ctx, [variable, server, backup]) {
-        const endpoint = `servers/${server}/backups/${backup}`;
-        const result = await request(variable, "DELETE", endpoint);
-        return this.successJSON(result);
+        return this.successJSON(await request(variable, "DELETE", "/servers/" + server + "/backups/" + backup));
     }
 });

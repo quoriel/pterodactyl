@@ -3,7 +3,7 @@ const { request } = require("../../pterodactyl");
 
 exports.default = new NativeFunction({
     name: "$updateEmail",
-    version: "1.0.0",
+    version: "1.2.0",
     description: "Updates the email address of the account",
     output: ArgType.Json,
     brackets: true,
@@ -32,9 +32,6 @@ exports.default = new NativeFunction({
         }
     ],
     async execute(ctx, [variable, email, password]) {
-        const endpoint = "account/email";
-        const body = { email, password };
-        const result = await request(variable, "PUT", endpoint, body);
-        return this.successJSON(result);
+        return this.successJSON(await request(variable, "PUT", "/account/email", JSON.stringify({ email, password })));
     }
 });

@@ -3,7 +3,7 @@ const { request } = require("../../pterodactyl");
 
 exports.default = new NativeFunction({
     name: "$deleteDatabase",
-    version: "1.0.0",
+    version: "1.2.0",
     description: "Deletes the specified database",
     output: ArgType.Json,
     brackets: true,
@@ -32,8 +32,6 @@ exports.default = new NativeFunction({
         }
     ],
     async execute(ctx, [variable, server, database]) {
-        const endpoint = `servers/${server}/databases/${database}`;
-        const result = await request(variable, "DELETE", endpoint);
-        return this.successJSON(result);
+        return this.successJSON(await request(variable, "DELETE", "/servers/" + server + "/databases/" + database));
     }
 });

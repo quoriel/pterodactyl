@@ -3,7 +3,7 @@ const { request } = require("../../pterodactyl");
 
 exports.default = new NativeFunction({
     name: "$rotatePassword",
-    version: "1.0.0",
+    version: "1.2.0",
     description: "Changes the password of the specified database",
     output: ArgType.Json,
     brackets: true,
@@ -32,8 +32,6 @@ exports.default = new NativeFunction({
         }
     ],
     async execute(ctx, [variable, server, database]) {
-        const endpoint = `servers/${server}/databases/${database}/rotate-password`;
-        const result = await request(variable, "POST", endpoint);
-        return this.successJSON(result);
+        return this.successJSON(await request(variable, "POST", "/servers/" + server + "/databases/" + database + "/rotate-password"));
     }
 });
