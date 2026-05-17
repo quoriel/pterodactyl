@@ -3,7 +3,7 @@ const pools = {};
 
 async function request(variable, method, endpoint, body, headers) {
     try {
-        const response = await pools[config[variable].url].request({
+        return (await pools[config[variable].url].request({
             path: "/api/client" + endpoint,
             method,
             body,
@@ -14,16 +14,13 @@ async function request(variable, method, endpoint, body, headers) {
                 ...config[variable].headers,
                 ...headers
             }
-        });
-        return (await response.body.text()) || { result: "Successful" };
+        })).body.text() || { result: "Successful" };
     } catch (error) {
         return {
-            errors: [
-                {
-                    code: "NetworkOrFetchError",
-                    detail: error.message
-                }
-            ]
+            errors: [{
+                code: "NetworkOrFetchError",
+                detail: error.message
+            }]
         };
     }
 }
