@@ -1,9 +1,19 @@
 const config = {};
 const pools = {};
 
+function body(data) {
+    const result = {};
+    for (const key in data) {
+        if (data[key] !== undefined && data[key] !== null && data[key] !== "") {
+            result[key] = data[key];
+        }
+    }
+    return JSON.stringify(result);
+}
+
 async function request(variable, method, endpoint, body, headers) {
     try {
-        return (await pools[config[variable].url].request({
+        return (await (await pools[config[variable].url].request({
             path: "/api/client" + endpoint,
             method,
             body,
@@ -14,7 +24,7 @@ async function request(variable, method, endpoint, body, headers) {
                 ...config[variable].headers,
                 ...headers
             }
-        })).body.text() || { result: "Successful" };
+        })).body.text()) || { result: "Successful" };
     } catch (error) {
         return {
             errors: [{
@@ -25,4 +35,4 @@ async function request(variable, method, endpoint, body, headers) {
     }
 }
 
-module.exports = { config, pools, request };
+module.exports = { config, pools, request, body };
